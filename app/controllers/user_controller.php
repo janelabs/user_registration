@@ -9,7 +9,16 @@ class UserController extends AppController
         $adapter = new \Pagerfanta\Adapter\ArrayAdapter($users);
         $paginator = new \Pagerfanta\Pagerfanta($adapter);
         $paginator->setMaxPerPage(10);
-        $paginator->setCurrentPage(Param::get('page', 1));
+
+        // check if defined page is greater than the rendered page
+        $total_page = $paginator->getNbPages();
+        $current_page = (int) Param::get('page', 1);
+
+        if ($current_page > $total_page) {
+            header('Location: ' . url('user/index'));
+        } else {
+            $paginator->setCurrentPage(Param::get('page', 1));
+        }
 
         $users = $paginator->getCurrentPageResults();
 
