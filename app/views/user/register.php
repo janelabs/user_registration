@@ -17,22 +17,22 @@
 
     <div>
         <label for="lastname">Last Name:</label>
-        <input type="text" name="lastname" id="lastname" class="input-xlarge" value="<?php eh($lastname); ?>" />
+        <input type="text" name="lastname" id="lastname" class="input-xlarge" value="<?php eh(!empty($lastname) ? $lastname : ''); ?>" />
     </div>
 
     <div>
         <label for="firstname">First Name:</label>
-        <input type="text" name="firstname" id="firstname" class="input-xlarge" value="<?php eh($firstname); ?>" />
+        <input type="text" name="firstname" id="firstname" class="input-xlarge" value="<?php eh(!empty($firstname) ? $firstname : ''); ?>" />
     </div>
 
     <div>
         <label for="middlename">Middle Name:</label>
-        <input type="text" name="middlename" id="middlename" class="input-xlarge" value="<?php eh($middlename); ?>" />
+        <input type="text" name="middlename" id="middlename" class="input-xlarge" value="<?php eh(!empty($middlename) ? $middlename : ''); ?>" />
     </div>
 
     <div>
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username" class="input-xlarge" value="<?php eh($username); ?>" />
+        <input type="text" name="username" id="username" class="input-xlarge" value="<?php eh(!empty($username) ? $username : ''); ?>" />
     </div>
 
     <div>

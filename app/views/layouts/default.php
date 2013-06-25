@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>DietCake Starter - User Management</title>
 
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <script type="text/javascript" src="/jquery.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>

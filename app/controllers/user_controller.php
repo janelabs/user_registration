@@ -5,6 +5,18 @@ class UserController extends AppController
     public function index()
     {
         $users = User::getAllUsers();
+
+        $adapter = new \Pagerfanta\Adapter\ArrayAdapter($users);
+        $paginator = new \Pagerfanta\Pagerfanta($adapter);
+        $paginator->setMaxPerPage(10);
+        $paginator->setCurrentPage(Param::get('page', 1));
+
+        $users = $paginator->getCurrentPageResults();
+
+        $view = new \Pagerfanta\View\DefaultView();
+        $options = array('proximity' => 3, 'url' => 'user/index');
+        $page = $view->render($paginator, 'routeGenerator', $options);
+
         $this->set(get_defined_vars());
     }
 
@@ -12,11 +24,6 @@ class UserController extends AppController
     {
         $info = array();
         $error = null;
-        $lastname = "";
-        $firstname = "";
-        $middlename = "";
-        $username = "";
-        $password = "";
 
         if (Param::get('register_btn')) {
             $lastname = trim(Param::get('lastname'));
@@ -63,6 +70,8 @@ class UserController extends AppController
                     throw new Exception('All fields are required.');
                 }
                 // end validation
+
+                $info['date_registered'] = date('Y-m-d H:i:s');
 
                 User::addUser($info);
                 header('Location: ' . url('user/index'));
