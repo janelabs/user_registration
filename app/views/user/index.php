@@ -2,7 +2,7 @@
     .user_div {
         outline: 1px solid gray;
         padding: 15px;
-        margin-top: 10px auto;
+        margin-top: 10px;
     }
 
     .div {
@@ -22,7 +22,7 @@
             ?>
             <div id="<?php echo $user['id']; ?>" class="user_div">
                 Name: <?php echo ucwords($user['firstname']) . " " . ucwords($user['lastname']); ?><br />
-                Email Address: <?php echo $user['email']; ?>
+                Username: <?php echo $user['username']; ?>
             </div>
             <?php
         endforeach;

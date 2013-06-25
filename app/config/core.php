@@ -17,3 +17,5 @@ define('DB_ATTR_TIMEOUT', 3);
 
 // encryption key
 define('ENC_KEY', 'us3rM4na63mnt!890');
+
+define('DEBUG_DUMP_EXCEPTION', false);

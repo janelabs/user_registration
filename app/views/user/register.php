@@ -1,25 +1,38 @@
-<h2>Register User</h2><br>
+<h2>Register User</h2>
+<p style="color: red;">All fields are required.</p>
+<br>
 
-<form name="usr_register" id="usr_register" method="post" action="<?php eh(url('user/addUser')); ?>">
+<?php
+    if (!empty($error)) {
+        ?>
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error! </strong> <?php eh($error); ?>
+        </div>
+        <?php
+    }
+?>
+
+<form name="usr_register" id="usr_register" method="post" action="<?php eh(url('')); ?>">
 
     <div>
         <label for="lastname">Last Name:</label>
-        <input type="text" name="lastname" id="lastname" class="input-xlarge" />
+        <input type="text" name="lastname" id="lastname" class="input-xlarge" value="<?php eh($lastname); ?>" />
     </div>
 
     <div>
         <label for="firstname">First Name:</label>
-        <input type="text" name="firstname" id="firstname" class="input-xlarge" />
+        <input type="text" name="firstname" id="firstname" class="input-xlarge" value="<?php eh($firstname); ?>" />
     </div>
 
     <div>
         <label for="middlename">Middle Name:</label>
-        <input type="text" name="middlename" id="middlename" class="input-xlarge" />
+        <input type="text" name="middlename" id="middlename" class="input-xlarge" value="<?php eh($middlename); ?>" />
     </div>
 
     <div>
-        <label for="email">Email Address:</label>
-        <input type="email" name="email" id="email" class="input-xlarge" />
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" class="input-xlarge" value="<?php eh($username); ?>" />
     </div>
 
     <div>
