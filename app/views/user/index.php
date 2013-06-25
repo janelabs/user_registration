@@ -64,5 +64,12 @@
                 });
             }
         });
+
+        $('.action-edit').click(function(){
+            var ans = confirm($(this).attr('title') + "?");
+            if (ans) {
+                window.location = "<?php eh(url('user/edit?id=')); ?>" + $(this).attr('id');
+            }
+        });
     });
 </script>

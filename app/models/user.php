@@ -74,4 +74,36 @@ class User extends AppModel
 
         return true;
     }
+
+    /**
+     * @param int $id
+     * @return array|bool
+     */
+    public static function getById($id = 0)
+    {
+        $db = DB::conn();
+        $rows = array();
+
+        if ($id > 0) {
+            $rows = $db->rows("SELECT * FROM info WHERE id='$id'");
+        }
+
+        return $rows ? $rows : false;
+    }
+
+    public static function editUser($data = array(), $where = array())
+    {
+        $db = DB::conn();
+
+        try {
+            $db->begin();
+            $db->update('info', $data, $where);
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            return $e->getMessage();
+        }
+
+        return true;
+    }
 }

@@ -109,4 +109,85 @@ class UserController extends AppController
             echo "Invalid action";
         }
     }
+
+    public function edit()
+    {
+        $info = array();
+        $error = null;
+        $uid = Param::get('id', 0);
+
+        if ($uid > 0) {
+            $user = User::getById($uid);
+
+            $lastname = $user[0]['lastname'];
+            $firstname = $user[0]['firstname'];
+            $middlename = $user[0]['middlename'];
+            $username = $user[0]['username'];
+        }
+
+        if (Param::get('register_btn')) {
+            $lastname = trim(Param::get('lastname'));
+            $firstname = trim(Param::get('firstname'));
+            $middlename = trim(Param::get('middlename'));
+            $username = trim(Param::get('username'));
+            $password = trim(Param::get('password'));
+
+            try {
+                // validate input
+                if (has_content($lastname)) {
+                    $info['lastname'] = $lastname;
+                } else {
+                    throw new Exception('All fields are required.');
+                }
+
+                if (has_content($firstname)) {
+                    $info['firstname'] = $firstname;
+                } else {
+                    throw new Exception('All fields are required.');
+                }
+
+                if (has_content($middlename)) {
+                    $info['middlename'] = $middlename;
+                } else {
+                    throw new Exception('All fields are required.');
+                }
+
+                if (has_content($username)) {
+                    $uname = User::getByUsername($username);
+                    if ($uname && $uname[0]['id'] != $uid) {
+                        throw new Exception('Username already taken.');
+                    }
+                    $info['username'] = $username;
+                } else {
+                    throw new Exception('All fields are required.');
+                }
+
+                if (has_content($password)) {
+                    if (!validate_min($password, 6)) {
+                        throw new Exception('Password must be at least 6 characters');
+                    }
+                    $info['password'] = md5(ENC_KEY . $password);
+                } else {
+                    throw new Exception('All fields are required.');
+                }
+                // end validation
+
+                $info['date_registered'] = date('Y-m-d H:i:s');
+
+                $where = array('id' => $uid);
+                $edit_user = User::editUser($info, $where);
+
+                // check if insert of new user is successful
+                if ($edit_user) {
+                    header('Location: ' . url('user/index'));
+                } else {
+                    echo $edit_user;
+                }
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+            }
+        }
+
+        $this->set(get_defined_vars());
+    }
 }
