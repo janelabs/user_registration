@@ -1,10 +1,12 @@
 User Management
 ==========================================================
 
+List of Users
+
 Add User
 
-List of Users
+Delete User
 
 ==========================================================
 
-Framework: Dietcake Framework
+Framework: Diet-cake Framework
