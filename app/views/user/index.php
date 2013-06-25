@@ -14,9 +14,10 @@
 <table class="table table-striped">
     <tbody>
         <tr>
-            <th width="320px">Name</th>
-            <th width="310px">Username</th>
-            <th width="310px">Date Registered</th>
+            <th style="width: 290px;">Name</th>
+            <th style="width: 240px;">Username</th>
+            <th style="width: 240px;">Date Registered</th>
+            <th style="width: 170px;">Action</th>
         </tr>
         <?php
             if ($users):
@@ -26,6 +27,14 @@
                         <td><?php echo ucwords($user['firstname']) . " " . ucwords($user['lastname']); ?></td>
                         <td><?php echo $user['username']; ?></td>
                         <td><?php echo date('F j, Y (h:i A)', strtotime($user['date_registered'])); ?></td>
+                        <td>
+                            <a id="<?php echo $user['id']; ?>" class="btn btn-info action-edit" title="Edit <?php echo $user['username']; ?>">
+                                <i class="icon icon-pencil"></i> Edit
+                            </a>
+                            <a id="<?php echo $user['id']; ?>" class="btn btn-danger action-delete" title="Delete <?php echo $user['username']; ?>">
+                                <i class="icon icon-trash"></i> Delete
+                            </a>
+                        </td>
                     </tr>
                     <?php
                 endforeach;
@@ -44,3 +53,16 @@
 <div class="pagination">
     <?php echo $page; ?>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $('.action-delete').click(function(){
+            var ans = confirm($(this).attr('title') + "?");
+            if (ans) {
+                $.post("<?php eh(url('user/deleteUser')); ?>", {id: $(this).attr('id')}, function(){
+                    window.location = "<?php echo url('user/index'); ?>";
+                });
+            }
+        });
+    });
+</script>

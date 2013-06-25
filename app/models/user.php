@@ -14,16 +14,23 @@ class User extends AppModel
     }
 
     /**
-     * Add new user
-     *
      * @param array $data
+     * @return bool|string
      */
     public static function addUser($data = array())
     {
         $db = DB::conn();
-        $db->begin();
+
+        try {
+            $db->begin();
             $db->insert('info', $data);
-        $db->commit();
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            return $e->getMessage();
+        }
+
+        return true;
     }
 
     /**
@@ -41,5 +48,30 @@ class User extends AppModel
         }
 
         return $row ? $row : false;
+    }
+
+    /**
+     * @param int $id
+     * @return bool|string
+     */
+    public static function deleteUser($id = 0)
+    {
+        $db = DB::conn();
+
+        try {
+            if ($id > 0) {
+                $sql = "DELETE FROM info WHERE id=$id";
+                $db->begin();
+                $db->query($sql);
+                $db->commit();
+            } else {
+                throw new Exception("Error in deleting user's information");
+            }
+        } catch (Exception $e) {
+            $db->rollback();
+            return $e->getMessage();
+        }
+
+        return true;
     }
 }

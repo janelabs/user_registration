@@ -82,14 +82,31 @@ class UserController extends AppController
 
                 $info['date_registered'] = date('Y-m-d H:i:s');
 
-                User::addUser($info);
-                header('Location: ' . url('user/index'));
+                $new_user = User::addUser($info);
 
+                // check if insert of new user is successful
+                if ($new_user) {
+                    header('Location: ' . url('user/index'));
+                } else {
+                    echo $new_user;
+                }
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }
         }
 
         $this->set(get_defined_vars());
+    }
+
+    public function deleteUser()
+    {
+        $id = isset($_POST['id']) ? $_POST['id'] : 0;
+
+        if ($id && is_numeric($id)) {
+            $del_user = User::deleteUser((int) $id);
+            header('Location: ' . url('user/index'));
+        } else {
+            echo "Invalid action";
+        }
     }
 }
