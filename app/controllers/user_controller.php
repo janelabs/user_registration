@@ -67,6 +67,15 @@ class UserController extends AppController
         }
     }
 
+    private function validate_content($info = array())
+    {
+        foreach ($info as $key => $val) {
+            if (!has_content($val)) {
+                throw new Exception('All fields are required.');
+            }
+        }
+    }
+
     /**
      * User Info Form Display - used in Add New User and Edit User's Info
      * Uses $uid variable to check if form is for add or edit
@@ -107,57 +116,40 @@ class UserController extends AppController
 
             try {
                 // validate input
-                if (has_content($lastname)) {
-                    $info['lastname'] = $lastname;
+                $info['lastname'] = $lastname;
+                $info['firstname'] = $firstname;
+                $info['middlename'] = $middlename;
+                $info['username'] = $username;
+
+                // check field content
+                $this->validate_content($info);
+
+                $uname = User::getByUsername($username);
+
+                // check if form is for edit purpose
+                if ($uid > 0 ) {
+                    if ($uname && $uname[0]['id'] != $uid) {
+                        throw new Exception('Username already taken.');
+                    }
                 } else {
-                    throw new Exception('All fields are required.');
-                }
-
-                if (has_content($firstname)) {
-                    $info['firstname'] = $firstname;
-                } else {
-                    throw new Exception('All fields are required.');
-                }
-
-                if (has_content($middlename)) {
-                    $info['middlename'] = $middlename;
-                } else {
-                    throw new Exception('All fields are required.');
-                }
-
-                if (has_content($username)) {
-                    $uname = User::getByUsername($username);
-
-                    // check if form is for edit purpose
-                    if ($uid > 0 ) {
-                        if ($uname && $uname[0]['id'] != $uid) {
-                            throw new Exception('Username already taken.');
-                        }
-                    } else {
-                        if ($uname) {
-                            throw new Exception('Username already taken.');
-                        }
+                    // username
+                    if ($uname) {
+                        throw new Exception('Username already taken.');
                     }
 
-                    $info['username'] = $username;
-                } else {
-                    throw new Exception('All fields are required.');
-                }
-
-                if (!$uid) {
+                    // password
                     if (has_content($password)) {
                         if (!validate_min($password, 6)) {
                             throw new Exception('Password must be at least 6 characters');
                         }
                         $info['password'] = md5(ENC_KEY . $password);
                     } else {
-                        throw new Exception('sdasdAll fields are required.');
+                        throw new Exception('All fields are required.');
                     }
                 }
-
                 // end validation
 
-                // checks if edit or insert
+                // checks if action is edit or insert
                 if ($uid > 0) {
                     $this->edit($uid, $info);
                 } else {
