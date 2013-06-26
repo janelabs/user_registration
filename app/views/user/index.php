@@ -1,9 +1,3 @@
-<style type="text/css">
-    .div {
-        margin: 10px auto;
-    }
-</style>
-
 <h2>List of User(s)</h2>
 
 <div class="div">
@@ -14,10 +8,10 @@
 <table class="table table-striped">
     <tbody>
         <tr>
-            <th style="width: 290px;">Name</th>
-            <th style="width: 240px;">Username</th>
-            <th style="width: 240px;">Date Registered</th>
-            <th style="width: 170px;">Action</th>
+            <th class="width-290">Name</th>
+            <th class="width-240">Username</th>
+            <th class="width-240">Date Registered</th>
+            <th class="width-170">Action</th>
         </tr>
         <?php
             if ($users):
@@ -56,20 +50,6 @@
 
 <script type="text/javascript">
     $(function(){
-        $('.action-delete').click(function(){
-            var ans = confirm($(this).attr('title') + "?");
-            if (ans) {
-                $.post("<?php eh(url('user/deleteUser')); ?>", {id: $(this).attr('id')}, function(){
-                    window.location = "<?php echo url('user/index'); ?>";
-                });
-            }
-        });
-
-        $('.action-edit').click(function(){
-            var ans = confirm($(this).attr('title') + "?");
-            if (ans) {
-                window.location = "<?php eh(url('user/info?id=')); ?>" + $(this).attr('id');
-            }
-        });
+        User.initIndex();
     });
 </script>
