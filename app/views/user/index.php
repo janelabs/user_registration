@@ -15,17 +15,19 @@
         </tr>
         <?php
             if ($users):
+                $id = null;
                 foreach($users as $user):
+                    $id = base64_encode(ENC_KEY . "-" . $user['id']);
                     ?>
                     <tr>
                         <td><?php echo ucwords($user['firstname']) . " " . ucwords($user['lastname']); ?></td>
                         <td><?php echo $user['username']; ?></td>
                         <td><?php echo date('F j, Y (h:i A)', strtotime($user['date_registered'])); ?></td>
                         <td>
-                            <a id="<?php echo $user['id']; ?>" class="btn btn-info action-edit" title="Edit <?php echo $user['username']; ?>">
+                            <a id="<?php echo $id; ?>" class="btn btn-info action-edit" title="Edit <?php echo $user['username']; ?>">
                                 <i class="icon icon-pencil"></i> Edit
                             </a>
-                            <a id="<?php echo $user['id']; ?>" class="btn btn-danger action-delete" title="Delete <?php echo $user['username']; ?>">
+                            <a id="<?php echo $id; ?>" class="btn btn-danger action-delete" title="Delete <?php echo $user['username']; ?>">
                                 <i class="icon icon-trash"></i> Delete
                             </a>
                         </td>

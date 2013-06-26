@@ -15,7 +15,7 @@ class User extends AppModel
 
     /**
      * @param array $data
-     * @return bool|string
+     * @return bool
      */
     public static function addUser($data = array())
     {
@@ -27,7 +27,7 @@ class User extends AppModel
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;
@@ -52,14 +52,14 @@ class User extends AppModel
 
     /**
      * @param int $id
-     * @return bool|string
+     * @return bool
      */
     public static function deleteUser($id = 0)
     {
         $db = DB::conn();
 
         try {
-            if ($id > 0) {
+            if ($id) {
                 $sql = "DELETE FROM info WHERE id = ?";
                 $db->begin();
                 $db->query($sql, array($id));
@@ -69,7 +69,7 @@ class User extends AppModel
             }
         } catch (Exception $e) {
             $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;
@@ -84,7 +84,7 @@ class User extends AppModel
         $db = DB::conn();
         $rows = array();
 
-        if ($id > 0) {
+        if ($id) {
             $rows = $db->rows("SELECT * FROM info WHERE id = ?", array($id));
         }
 
@@ -94,7 +94,7 @@ class User extends AppModel
     /**
      * @param array $data
      * @param array $where
-     * @return bool|string
+     * @return bool
      */
     public static function editUser($data = array(), $where = array())
     {
@@ -106,7 +106,7 @@ class User extends AppModel
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;
