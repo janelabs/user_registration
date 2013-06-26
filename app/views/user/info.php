@@ -1,4 +1,4 @@
-<h2>Edit User</h2>
+<h2><?php eh($title); ?> User</h2>
 <p style="color: red;">All fields are required.</p>
 <br>
 
@@ -13,7 +13,7 @@
     }
 ?>
 
-<form name="usr_edit" id="usr_edit" method="post" action="<?php eh(url('')); ?>">
+<form name="usr_info" id="usr_info" method="post" action="<?php eh(url('')); ?>">
 
     <div>
         <label for="lastname">Last Name:</label>
@@ -35,14 +35,28 @@
         <input type="text" name="username" id="username" class="input-xlarge" value="<?php eh(!empty($username) ? $username : ''); ?>" />
     </div>
 
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" class="input-xlarge" />
-    </div><br>
+    <?php
+        if (!$uid) {
+            ?>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" class="input-xlarge" value="<?php eh(!empty($password) ? $password : ''); ?>" />
+            </div><br>
+            <?php
+        }
+    ?>
 
     <div>
         <a href="<?php eh(url('user/index')); ?>" class="btn btn-danger">Back</a>
-        <input type="submit" value="Save" name="edit_btn" class="btn btn-info" />
+        <input type="submit" value="<?php eh($submit_value); ?>" name="info_btn" class="btn btn-info" />
     </div>
 
 </form>
+
+<?php
+    if (!empty($last_date_modified)) {
+        ?>
+        <p>Last Modified: <?php eh(date('F j, Y (h:i A)', strtotime($last_date_modified))); ?></p>
+        <?php
+    }
+?>

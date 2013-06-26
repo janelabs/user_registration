@@ -7,7 +7,7 @@
 <h2>List of User(s)</h2>
 
 <div class="div">
-    <a href="<?php eh(url('user/register')); ?>" class="btn btn-info">Add User</a>
+    <a href="<?php eh(url('user/info')); ?>" class="btn btn-info">Add User</a>
 </div>
 
 <div>
@@ -68,7 +68,7 @@
         $('.action-edit').click(function(){
             var ans = confirm($(this).attr('title') + "?");
             if (ans) {
-                window.location = "<?php eh(url('user/edit?id=')); ?>" + $(this).attr('id');
+                window.location = "<?php eh(url('user/info?id=')); ?>" + $(this).attr('id');
             }
         });
     });

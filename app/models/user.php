@@ -91,6 +91,11 @@ class User extends AppModel
         return $rows ? $rows : false;
     }
 
+    /**
+     * @param array $data
+     * @param array $where
+     * @return bool|string
+     */
     public static function editUser($data = array(), $where = array())
     {
         $db = DB::conn();
