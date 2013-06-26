@@ -1,0 +1,25 @@
+body {
+    padding-top: 60px;
+}
+
+.div {
+    margin: 10px auto;
+}
+
+/* widths */
+.width-290 {
+    width: 290px;
+}
+
+.width-240 {
+    width: 240px;
+}
+
+.width-170 {
+    width: 170px;
+}
+
+/* text color */
+.red {
+    color: red;
+}
