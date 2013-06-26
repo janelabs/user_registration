@@ -32,7 +32,7 @@ class UserController extends AppController
 
     private function edit($uid = 0, $info = array())
     {
-        if ($uid > 0 && count($info) > 0) {
+        if ($uid > 0 && count($info)) {
             $info['date_modified'] = date('Y-m-d H:i:s');
             $where = array('id' => $uid);
 
@@ -52,7 +52,7 @@ class UserController extends AppController
 
     private function register($info = array())
     {
-        if (count($info) > 0) {
+        if (count($info)) {
             $info['date_registered'] = date('Y-m-d H:i:s');
 
             $new_user = User::addUser($info);
