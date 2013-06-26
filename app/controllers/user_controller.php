@@ -4,28 +4,29 @@ class UserController extends AppController
 {
     public function index()
     {
+        $page = null;
         $users = User::getAllUsers();
+        if ($users) {
+            $adapter = new \Pagerfanta\Adapter\ArrayAdapter($users);
+            $paginator = new \Pagerfanta\Pagerfanta($adapter);
+            $paginator->setMaxPerPage(10);
 
-        $adapter = new \Pagerfanta\Adapter\ArrayAdapter($users);
-        $paginator = new \Pagerfanta\Pagerfanta($adapter);
-        $paginator->setMaxPerPage(10);
+            // check if defined page is greater than the rendered page
+            $total_page = $paginator->getNbPages();
+            $current_page = (int) Param::get('page', 1);
 
-        // check if defined page is greater than the rendered page
-        $total_page = $paginator->getNbPages();
-        $current_page = (int) Param::get('page', 1);
+            if ($current_page > $total_page) {
+                header('Location: ' . url('user/index'));
+            } else {
+                $paginator->setCurrentPage(Param::get('page', 1));
+            }
 
-        if ($current_page > $total_page) {
-            header('Location: ' . url('user/index'));
-        } else {
-            $paginator->setCurrentPage(Param::get('page', 1));
+            $users = $paginator->getCurrentPageResults();
+
+            $view = new \Pagerfanta\View\DefaultView();
+            $options = array('proximity' => 3, 'url' => 'user/index');
+            $page = $view->render($paginator, 'routeGenerator', $options);
         }
-
-        $users = $paginator->getCurrentPageResults();
-
-        $view = new \Pagerfanta\View\DefaultView();
-        $options = array('proximity' => 3, 'url' => 'user/index');
-        $page = $view->render($paginator, 'routeGenerator', $options);
-
         $this->set(get_defined_vars());
     }
 
