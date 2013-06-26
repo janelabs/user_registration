@@ -34,7 +34,7 @@ class UserController extends AppController
         $info = array();
         $error = null;
 
-        if (Param::get('register_btn')) {
+        if (isset($_POST['register_btn'])) {
             $lastname = trim(Param::get('lastname'));
             $firstname = trim(Param::get('firstname'));
             $middlename = trim(Param::get('middlename'));
@@ -123,9 +123,10 @@ class UserController extends AppController
             $firstname = $user[0]['firstname'];
             $middlename = $user[0]['middlename'];
             $username = $user[0]['username'];
+            $password = $user[0]['password'];
         }
 
-        if (Param::get('register_btn')) {
+        if (isset($_POST['edit_btn'])) {
             $lastname = trim(Param::get('lastname'));
             $firstname = trim(Param::get('firstname'));
             $middlename = trim(Param::get('middlename'));

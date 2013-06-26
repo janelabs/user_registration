@@ -42,7 +42,7 @@
 
     <div>
         <a href="<?php eh(url('user/index')); ?>" class="btn btn-danger">Back</a>
-        <input type="submit" value="Save" name="register_btn" class="btn btn-info" />
+        <input type="submit" value="Save" name="edit_btn" class="btn btn-info" />
     </div>
 
 </form>
