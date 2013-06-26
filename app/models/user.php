@@ -44,7 +44,7 @@ class User extends AppModel
 
         if ($uname) {
             $uname = mysql_real_escape_string($uname);
-            $row = $db->rows("SELECT * FROM info WHERE username='{$uname}'");
+            $row = $db->rows("SELECT * FROM info WHERE username = ?", array($uname));
         }
 
         return $row ? $row : false;
@@ -60,9 +60,9 @@ class User extends AppModel
 
         try {
             if ($id > 0) {
-                $sql = "DELETE FROM info WHERE id=$id";
+                $sql = "DELETE FROM info WHERE id = ?";
                 $db->begin();
-                $db->query($sql);
+                $db->query($sql, array($id));
                 $db->commit();
             } else {
                 throw new Exception("Error in deleting user's information");
@@ -85,7 +85,7 @@ class User extends AppModel
         $rows = array();
 
         if ($id > 0) {
-            $rows = $db->rows("SELECT * FROM info WHERE id='$id'");
+            $rows = $db->rows("SELECT * FROM info WHERE id = ?", array($id));
         }
 
         return $rows ? $rows : false;
