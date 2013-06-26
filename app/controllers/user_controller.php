@@ -71,7 +71,7 @@ class UserController extends AppController
     {
         foreach ($info as $key => $val) {
             if (!has_content($val)) {
-                throw new Exception('All fields are required.');
+                throw new Exception('Fields with * are required.');
             }
         }
     }
@@ -110,7 +110,7 @@ class UserController extends AppController
         if (isset($_POST['info_btn'])) {
             $lastname = trim(Param::get('lastname'));
             $firstname = trim(Param::get('firstname'));
-            $middlename = trim(Param::get('middlename'));
+            $middlename = trim(Param::get('middlename', null));
             $username = trim(Param::get('username'));
             $password = trim(Param::get('password'));
 
@@ -118,7 +118,6 @@ class UserController extends AppController
                 // validate input
                 $info['lastname'] = $lastname;
                 $info['firstname'] = $firstname;
-                $info['middlename'] = $middlename;
                 $info['username'] = $username;
 
                 // check field content
@@ -144,10 +143,12 @@ class UserController extends AppController
                         }
                         $info['password'] = md5(ENC_KEY . $password);
                     } else {
-                        throw new Exception('All fields are required.');
+                        throw new Exception('Fields with * are required.');
                     }
                 }
                 // end validation
+
+                $info['middlename'] = $middlename;
 
                 // checks if action is edit or insert
                 if ($uid > 0) {

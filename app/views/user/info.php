@@ -1,5 +1,5 @@
 <h2><?php eh($title); ?> User</h2>
-<p style="color: red;">All fields are required.</p>
+<p style="color: red;">Fields with * are required.</p>
 <br>
 
 <?php
@@ -16,12 +16,12 @@
 <form name="usr_info" id="usr_info" method="post" action="<?php eh(url('')); ?>">
 
     <div>
-        <label for="lastname">Last Name:</label>
+        <label for="lastname">* Last Name:</label>
         <input type="text" name="lastname" id="lastname" class="input-xlarge" value="<?php eh(!empty($lastname) ? $lastname : ''); ?>" />
     </div>
 
     <div>
-        <label for="firstname">First Name:</label>
+        <label for="firstname">* First Name:</label>
         <input type="text" name="firstname" id="firstname" class="input-xlarge" value="<?php eh(!empty($firstname) ? $firstname : ''); ?>" />
     </div>
 
@@ -31,7 +31,7 @@
     </div>
 
     <div>
-        <label for="username">Username:</label>
+        <label for="username">* Username:</label>
         <input type="text" name="username" id="username" class="input-xlarge" value="<?php eh(!empty($username) ? $username : ''); ?>" />
     </div>
 
@@ -39,7 +39,7 @@
         if (!$uid) {
             ?>
             <div>
-                <label for="password">Password:</label>
+                <label for="password">* Password:</label>
                 <input type="password" name="password" id="password" class="input-xlarge" value="<?php eh(!empty($password) ? $password : ''); ?>" />
             </div><br>
             <?php
