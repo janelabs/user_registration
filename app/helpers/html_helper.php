@@ -10,3 +10,9 @@ function routeGenerator($page)
 {
     return $_SERVER['REDIRECT_URL'].'?page='.$page;
 }
+
+function redirect($url = null)
+{
+    header('Location: ' . url($url));
+    exit;
+}

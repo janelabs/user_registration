@@ -9,14 +9,14 @@ class UserController extends AppController
         if ($users) {
             $adapter = new \Pagerfanta\Adapter\ArrayAdapter($users);
             $paginator = new \Pagerfanta\Pagerfanta($adapter);
-            $paginator->setMaxPerPage(10);
+            $paginator->setMaxPerPage(MAX_ITEMS_PER_PAGE);
 
             // check if defined page is greater than the rendered page
             $total_page = $paginator->getNbPages();
             $current_page = (int) Param::get('page', 1);
 
             if ($current_page > $total_page) {
-                header('Location: ' . url('user/index'));
+                redirect('user/index');
             } else {
                 $paginator->setCurrentPage(Param::get('page', 1));
             }
@@ -46,7 +46,7 @@ class UserController extends AppController
             throw new Exception("Error in editing user's information.");
         }
 
-        header('Location: ' . url('user/index'));
+        redirect('user/index');
     }
 
     private function register($info = array())
@@ -64,7 +64,7 @@ class UserController extends AppController
             throw new Exception('Error in adding new user.');
         }
 
-        header('Location: ' . url('user/index'));
+        redirect('user/index');
     }
 
     private function validate_content($info = array())
@@ -95,14 +95,14 @@ class UserController extends AppController
             $user = User::getById($uid);
 
             if (!$user) {
-                header('Location: ' . url('user/index'));
+                redirect('user/index');
             }
 
-            $lastname = $user[0]['lastname'];
-            $firstname = $user[0]['firstname'];
-            $middlename = $user[0]['middlename'];
-            $username = $user[0]['username'];
-            $last_date_modified = $user[0]['date_modified'];
+            $lastname = $user['lastname'];
+            $firstname = $user['firstname'];
+            $middlename = $user['middlename'];
+            $username = $user['username'];
+            $last_date_modified = $user['date_modified'];
             if ($last_date_modified == "0000-00-00 00:00:00") {
                 $last_date_modified = null;
             }
@@ -127,16 +127,16 @@ class UserController extends AppController
                 // check field content
                 $this->validate_content($info);
 
-                $uname = User::getByUsername($username);
+                $user = User::getByUsername($username);
 
                 // check if form is for edit purpose
                 if ($uid) {
-                    if ($uname && $uname[0]['id'] != $uid) {
+                    if ($user && $user['id'] != $uid) {
                         throw new Exception('Username already taken.');
                     }
                 } else {
                     // username
-                    if ($uname) {
+                    if ($user) {
                         throw new Exception('Username already taken.');
                     }
 
@@ -169,10 +169,10 @@ class UserController extends AppController
 
     public function deleteUser()
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : 0;
+        $id = Param::post('id', 0);
 
         if (!$id) {
-            echo "Invalid action";
+            redirect('user/index');
         }
 
         $id_arr = explode("-", base64_decode($id));
@@ -185,6 +185,6 @@ class UserController extends AppController
             exit;
         }
 
-        header('Location: ' . url('user/index'));
+        redirect('user/index');
     }
 }

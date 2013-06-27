@@ -19,3 +19,6 @@ define('DB_ATTR_TIMEOUT', 3);
 define('ENC_KEY', 'us3rM4na63mnt!890');
 
 define('DEBUG_DUMP_EXCEPTION', false);
+
+// Maximum Items in a list per page
+define('MAX_ITEMS_PER_PAGE', 10);

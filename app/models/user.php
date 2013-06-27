@@ -22,11 +22,8 @@ class User extends AppModel
         $db = DB::conn();
 
         try {
-            $db->begin();
             $db->insert('info', $data);
-            $db->commit();
         } catch (Exception $e) {
-            $db->rollback();
             return false;
         }
 
@@ -44,7 +41,7 @@ class User extends AppModel
 
         if ($uname) {
             $uname = mysql_real_escape_string($uname);
-            $row = $db->rows("SELECT * FROM info WHERE username = ?", array($uname));
+            $row = $db->row("SELECT * FROM info WHERE username = ?", array($uname));
         }
 
         return $row ? $row : false;
@@ -60,15 +57,11 @@ class User extends AppModel
 
         try {
             if ($id) {
-                $sql = "DELETE FROM info WHERE id = ?";
-                $db->begin();
-                $db->query($sql, array($id));
-                $db->commit();
+                $db->query("DELETE FROM info WHERE id = ?", array($id));
             } else {
                 throw new Exception("Error in deleting user's information");
             }
         } catch (Exception $e) {
-            $db->rollback();
             return false;
         }
 
@@ -85,7 +78,7 @@ class User extends AppModel
         $rows = array();
 
         if ($id) {
-            $rows = $db->rows("SELECT * FROM info WHERE id = ?", array($id));
+            $rows = $db->row("SELECT * FROM info WHERE id = ?", array($id));
         }
 
         return $rows ? $rows : false;
@@ -101,11 +94,8 @@ class User extends AppModel
         $db = DB::conn();
 
         try {
-            $db->begin();
             $db->update('info', $data, $where);
-            $db->commit();
         } catch (Exception $e) {
-            $db->rollback();
             return false;
         }
 
