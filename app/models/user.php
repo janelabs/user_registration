@@ -15,19 +15,16 @@ class User extends AppModel
 
     /**
      * @param array $data
-     * @return bool|string
+     * @return bool
      */
     public static function addUser($data = array())
     {
         $db = DB::conn();
 
         try {
-            $db->begin();
             $db->insert('info', $data);
-            $db->commit();
         } catch (Exception $e) {
-            $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;
@@ -44,7 +41,7 @@ class User extends AppModel
 
         if ($uname) {
             $uname = mysql_real_escape_string($uname);
-            $row = $db->rows("SELECT * FROM info WHERE username='{$uname}'");
+            $row = $db->row("SELECT * FROM info WHERE username = ?", array($uname));
         }
 
         return $row ? $row : false;
@@ -52,24 +49,20 @@ class User extends AppModel
 
     /**
      * @param int $id
-     * @return bool|string
+     * @return bool
      */
     public static function deleteUser($id = 0)
     {
         $db = DB::conn();
 
         try {
-            if ($id > 0) {
-                $sql = "DELETE FROM info WHERE id=$id";
-                $db->begin();
-                $db->query($sql);
-                $db->commit();
+            if ($id) {
+                $db->query("DELETE FROM info WHERE id = ?", array($id));
             } else {
                 throw new Exception("Error in deleting user's information");
             }
         } catch (Exception $e) {
-            $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;
@@ -84,24 +77,26 @@ class User extends AppModel
         $db = DB::conn();
         $rows = array();
 
-        if ($id > 0) {
-            $rows = $db->rows("SELECT * FROM info WHERE id='$id'");
+        if ($id) {
+            $rows = $db->row("SELECT * FROM info WHERE id = ?", array($id));
         }
 
         return $rows ? $rows : false;
     }
 
+    /**
+     * @param array $data
+     * @param array $where
+     * @return bool
+     */
     public static function editUser($data = array(), $where = array())
     {
         $db = DB::conn();
 
         try {
-            $db->begin();
             $db->update('info', $data, $where);
-            $db->commit();
         } catch (Exception $e) {
-            $db->rollback();
-            return $e->getMessage();
+            return false;
         }
 
         return true;

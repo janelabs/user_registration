@@ -1,37 +1,33 @@
-<style type="text/css">
-    .div {
-        margin: 10px auto;
-    }
-</style>
-
 <h2>List of User(s)</h2>
 
 <div class="div">
-    <a href="<?php eh(url('user/register')); ?>" class="btn btn-info">Add User</a>
+    <a href="<?php eh(url('user/info')); ?>" class="btn btn-info">Add User</a>
 </div>
 
 <div>
 <table class="table table-striped">
     <tbody>
         <tr>
-            <th style="width: 290px;">Name</th>
-            <th style="width: 240px;">Username</th>
-            <th style="width: 240px;">Date Registered</th>
-            <th style="width: 170px;">Action</th>
+            <th class="width-290">Name</th>
+            <th class="width-240">Username</th>
+            <th class="width-240">Date Registered</th>
+            <th class="width-170">Action</th>
         </tr>
         <?php
             if ($users):
+                $id = null;
                 foreach($users as $user):
+                    $id = base64_encode(ENC_KEY . "-" . $user['id']);
                     ?>
                     <tr>
                         <td><?php echo ucwords($user['firstname']) . " " . ucwords($user['lastname']); ?></td>
                         <td><?php echo $user['username']; ?></td>
                         <td><?php echo date('F j, Y (h:i A)', strtotime($user['date_registered'])); ?></td>
                         <td>
-                            <a id="<?php echo $user['id']; ?>" class="btn btn-info action-edit" title="Edit <?php echo $user['username']; ?>">
+                            <a id="<?php echo $id; ?>" class="btn btn-info action-edit" title="Edit <?php echo $user['username']; ?>">
                                 <i class="icon icon-pencil"></i> Edit
                             </a>
-                            <a id="<?php echo $user['id']; ?>" class="btn btn-danger action-delete" title="Delete <?php echo $user['username']; ?>">
+                            <a id="<?php echo $id; ?>" class="btn btn-danger action-delete" title="Delete <?php echo $user['username']; ?>">
                                 <i class="icon icon-trash"></i> Delete
                             </a>
                         </td>
@@ -56,20 +52,6 @@
 
 <script type="text/javascript">
     $(function(){
-        $('.action-delete').click(function(){
-            var ans = confirm($(this).attr('title') + "?");
-            if (ans) {
-                $.post("<?php eh(url('user/deleteUser')); ?>", {id: $(this).attr('id')}, function(){
-                    window.location = "<?php echo url('user/index'); ?>";
-                });
-            }
-        });
-
-        $('.action-edit').click(function(){
-            var ans = confirm($(this).attr('title') + "?");
-            if (ans) {
-                window.location = "<?php eh(url('user/edit?id=')); ?>" + $(this).attr('id');
-            }
-        });
+        User.initIndex();
     });
 </script>

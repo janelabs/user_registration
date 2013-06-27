@@ -10,4 +10,13 @@ class Param
     {
         return $_REQUEST;
     }
+
+    public static function post($name = null, $default = null)
+    {
+        if ($name === null) {
+            return $_POST;
+        }
+
+        return isset($_POST[$name]) ? $_POST[$name] : $default;
+    }
 }
